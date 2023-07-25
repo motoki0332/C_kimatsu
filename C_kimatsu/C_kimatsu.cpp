@@ -6,6 +6,8 @@
 #include <vector>
 #include "method.h"
 
+aaaaaaaaaaaaaaaaaa
+
 extern std::vector<NumObject*> NumObjects;
 extern int cell_coordinate[16][2];
 bool clearcheck = false;

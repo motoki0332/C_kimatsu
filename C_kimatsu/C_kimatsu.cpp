@@ -69,6 +69,11 @@ int main()
         create_struct(newNumObject);
     }
 
+    for (int i = 0; i < 8; i++) {
+        change_struct(0);
+        change_struct(1);
+    }
+
     while (true) {
         erase();
 

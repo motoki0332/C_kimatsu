@@ -13,10 +13,12 @@ int cell_coordinate[16][2] = { {0, 0}, {1, 0}, {2, 0}, {3, 0}, {0, 1}, {1, 1}, {
 	{0, 2}, {1, 2}, {2, 2}, {3, 2}, {0, 3}, {1, 3}, {2, 3}, {3, 3} };	// 各セルの座標
 
 int numdata[11];	// ファイルの読み込み用
-int fieldxmin = 0;
-int fieldxmax = 48;
-int fieldymin = 0;
-int fieldymax = 24;
+int xmax;
+int ymax;
+int fieldxmin;
+int fieldxmax;
+int fieldymin;
+int fieldymax;
 
 bool x_asc(const struct NumObject* p, const struct NumObject* q) {	// xの昇順
 	return p->x < q->x;
@@ -159,6 +161,11 @@ int find_empty_cellnum() {	// 空いているセルを探す
 }
 
 void draw_field() {	// フィールドの生成
+	getmaxyx(stdscr, ymax, xmax);
+	fieldxmin = xmax / 2 - 24;
+	fieldxmax = fieldxmin + 48;
+	fieldymax = ymax - 1;
+	fieldymin = fieldymax - 24;
 
 	for (int i = fieldxmin; i <= fieldxmax; i++) {
 		attrset(COLOR_PAIR(23));
@@ -335,7 +342,7 @@ void draw_NumObject(NumObject* nowNumObject) {	// 数字オブジェクトの表示
 	}
 }
 
-void push_right() {	// 右矢印キーが押された場合
+void move_right() {	// 右移動
 	sort(NumObjects.begin(), NumObjects.end(), x_desc);	// x座標が大きい順(より右にある順)にソート
 
 	for (int i = 0; i < NumObjects.size(); i++) {	// 全ての数字オブジェクトについて
@@ -370,7 +377,7 @@ void push_right() {	// 右矢印キーが押された場合
 	}
 }
 
-void push_left() {	// 左矢印キーが押された場合(push_rightと同様)
+void move_left() {	// 左移動(move_rightと同様)
 	sort(NumObjects.begin(), NumObjects.end(), x_asc);	// x座標が小さい順(より左にある順)にソート
 
 	for (int i = 0; i < NumObjects.size(); i++) {
@@ -405,10 +412,10 @@ void push_left() {	// 左矢印キーが押された場合(push_rightと同様)
 	}
 }
 
-void push_up() {	// 上矢印キーが押された場合(push_rightと同様)
+void move_up() {	// 上移動(move_rightと同様)
 	sort(NumObjects.begin(), NumObjects.end(), y_asc);	// y座標が小さい順(より上にある順)にソート
 
-	for (int i = 0; i < NumObjects.size(); i++) {	// 全ての数字オブジェクトについて
+	for (int i = 0; i < NumObjects.size(); i++) {
 		while (NumObjects[i]->cell != 0 && NumObjects[i]->cell != 1 && NumObjects[i]->cell != 2 && NumObjects[i]->cell != 3) {	// 数字オブジェクトの位置が最上端になるまで
 			NumObjects[i]->cell -= 4;
 
@@ -440,10 +447,10 @@ void push_up() {	// 上矢印キーが押された場合(push_rightと同様)
 	}
 }
 
-void push_down() {	// 下矢印キーが押された場合(push_rightと同様)
+void move_down() {	// 下移動(move_rightと同様)
 	sort(NumObjects.begin(), NumObjects.end(), y_desc);	// y座標が大きい順(より下にある順)にソート
 
-	for (int i = 0; i < NumObjects.size(); i++) {	// 全ての数字オブジェクトについて
+	for (int i = 0; i < NumObjects.size(); i++) {
 		while (NumObjects[i]->cell != 12 && NumObjects[i]->cell != 13 && NumObjects[i]->cell != 14 && NumObjects[i]->cell != 15) {	// 数字オブジェクトの位置が最下端になるまで
 			NumObjects[i]->cell += 4;
 

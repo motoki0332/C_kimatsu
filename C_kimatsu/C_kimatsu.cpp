@@ -68,10 +68,6 @@ int main()
 
     curs_set(0);    // カーソルを表示しない
 
-    noecho();
-    cbreak();
-    keypad(stdscr, TRUE);
-
     for (int i = 0; i < 2; i++) {   // 最初の数字オブジェクトを生成
         create_struct(newNumObject);
     }
@@ -85,15 +81,10 @@ int main()
         attron(A_BOLD);
         mvaddstr(0, (fieldxmin + fieldxmax) / 2 - 8, "Welcome to 2048");    // タイトルの表示
 
-        mvaddstr((fieldymin + fieldymax) / 2 - 2, fieldxmax + 15, "d");
-        mvaddstr((fieldymin + fieldymax) / 2 - 1, fieldxmax + 13, "a");
-        mvaddstr((fieldymin + fieldymax) / 2 - 1, fieldxmax + 15, "s");
-        mvaddstr((fieldymin + fieldymax) / 2 - 1, fieldxmax + 17, "d");
-
-        mvaddstr((fieldymin + fieldymax) / 2 + 1, fieldxmax + 15, "上");
-        mvaddstr((fieldymin + fieldymax) / 2 + 2, fieldxmax + 13, "左");
-        mvaddstr((fieldymin + fieldymax) / 2 + 2, fieldxmax + 15, "下");
-        mvaddstr((fieldymin + fieldymax) / 2 + 2, fieldxmax + 17, "右");
+        mvaddstr((fieldymin + fieldymax) / 2, fieldxmax + 13, "w: 上");  // 操作方法の表示
+        mvaddstr((fieldymin + fieldymax) / 2 + 1, fieldxmax + 13, "s: 下");
+        mvaddstr((fieldymin + fieldymax) / 2 + 2, fieldxmax + 13, "d: 右");
+        mvaddstr((fieldymin + fieldymax) / 2 + 3, fieldxmax + 13, "a: 左");
 
         mvprintw((fieldymin + fieldymax) / 2, fieldxmin - 20, "turn: %d", count);  // 経過ターン数の表示
 
